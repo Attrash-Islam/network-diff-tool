@@ -1,0 +1,8 @@
+.network-diff-tool .record-dot {
+    display: flex;
+    cursor: pointer;
+
+    &.disabled {
+        opacity: .5;
+    }
+}

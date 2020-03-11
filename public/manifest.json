@@ -1,25 +1,21 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    }
-  ],
+  "short_name": "Network Diff Tool",
+  "name": "Network Diff Tool",
+  "icons": {
+    "16": "logo192.png",
+    "48": "logo192.png",
+    "128": "logo192.png"
+  },
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "version": "1.0",
+  "manifest_version": 2,
+  "devtools_page": "index.html",
+  "permissions": [
+    "webRequest",
+    "<all_urls>"
+  ],
+  "content_security_policy": "script-src 'self' 'sha256-AHfgrqgM5Ai5dmFqyIc+5jI2RziNJwexh+8fFFG21tg='; object-src 'self'"
 }

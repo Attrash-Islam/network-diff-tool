@@ -1,0 +1,63 @@
+import React from 'react';
+import { set, update, isFunction } from 'lodash/fp';
+import ToolContext from '../context';
+import Header from '../Header';
+import './style.scss';
+import Body from '../Body';
+
+// eslint-disable-next-line no-undef
+chrome.devtools.panels.create("Network Diff",
+    "logo192.png",
+    "index.html"
+);
+
+const INIT_STATE = {
+    isRecording: false,
+    urlRegex: '',
+    method: 'POST'
+};
+
+function App() {
+  const [state, setState] = React.useState(INIT_STATE);
+
+  const setContext = (path, value, cb) => {
+    const updateFunction = isFunction(value) ? update : set;
+    setState((state) => updateFunction(path, value, state), cb);
+  };
+
+  React.useEffect(() => {
+
+  }, [state.isRecording]);
+
+  const networkListener = React.useCallback(({ method, initiator, requestId, requestBody, url }) => {
+    const { isRecording } = state;
+    if (!isRecording) { return; }
+
+    // TODO - Log things
+  }, [state]);
+
+  React.useEffect(() => {
+    // eslint-disable-next-line no-undef
+    chrome.webRequest.onBeforeRequest.addListener(
+      networkListener,
+      { urls: ["<all_urls>"] },
+      ['requestBody']
+    );
+
+    return () => {
+        // eslint-disable-next-line no-undef
+      chrome.webRequest.onBeforeRequest.removeListener(networkListener);
+    }
+  }, [networkListener]);
+
+  return (
+    <ToolContext.Provider value={{ context: state, setContext }}>
+      <div className="network-diff-tool">
+        <Header/>
+        <Body/>
+      </div>
+    </ToolContext.Provider>
+  );
+}
+
+export default App;
