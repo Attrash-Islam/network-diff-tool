@@ -4,6 +4,7 @@ import ToolContext from '../context';
 import Header from '../Header';
 import './style.scss';
 import Body from '../Body';
+import useRecordingChange from './Hooks/useRecordingChange';
 
 // eslint-disable-next-line no-undef
 chrome.devtools.panels.create("Network Diff",
@@ -22,16 +23,12 @@ const INIT_STATE = {
 function App() {
   const [state, setState] = React.useState(INIT_STATE);
 
-  const setContext = (path, value, cb) => {
+  const setContext = React.useCallback((path, value, cb) => {
     const updateFunction = isFunction(value) ? update : set;
     setState((state) => updateFunction(path, value, state), cb);
-  };
+  }, []);
 
-  React.useEffect(() => {
-    if (state.isRecording) {
-      setContext('data', []);
-    }
-  }, [state.isRecording]);
+  useRecordingChange(state, setContext);
 
   const networkListener = React.useCallback(({ method: reqMethod, initiator, requestId, requestBody, url }) => {
     const { isRecording, data, method, urlRegex } = state;

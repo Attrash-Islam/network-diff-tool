@@ -1,5 +1,5 @@
 import React from 'react';
-import { without, concat, isNil } from 'lodash/fp';
+import { isNil } from 'lodash/fp';
 import classnames from 'classnames';
 import ToolContext from '../context';
 import './style.scss';
@@ -13,18 +13,9 @@ const Body = () => {
     const oldPairs = React.useRef(selectedPair);
     let rendered;
 
-    const toggleSelection = (requestId) => () => {
-        if (selectedPair.includes(requestId)) {
-            setContext('selectedPair', without(requestId));
-        } else if(selectedPair.length === 2) {
-            return;
-        } else {
-            setContext('selectedPair', concat(requestId));
-        }
+    const toggleSelection = (requestId, index) => () => {
+        setContext(`selectedPair.${index}`, requestId);
     };
-
-    console.log('------------');
-    console.log({ data });
 
     const getRequestBodyByRequestId = React.useCallback((requestId) => {
         return data.find((x) => x.requestId === requestId).requestBody;
@@ -68,10 +59,12 @@ const Body = () => {
     if (isRecording) {
         rendered = (<span className="recording">Recording...</span>);
     } else {
-        const list = (
+        const list = (index) => (
             <ul>
                 {data.map(({ requestId, url }) => (
-                    <li key={requestId} onClick={toggleSelection(requestId)}>
+                    <li key={requestId}
+                        className={classnames('diff-option', { selected: selectedPair[index] === requestId })}
+                        onClick={toggleSelection(requestId, index)}>
                         {url}
                     </li>
                 ))}
@@ -82,8 +75,8 @@ const Body = () => {
             <div>
                 <h4>Select two to compare request diff</h4>
                 <div className="diff-lists">
-                    {list}
-                    {list}
+                    {list(0)}
+                    {list(1)}
                 </div>
                 {selectedPair.length === 2 && (
                     <div className="diff-result">
@@ -101,9 +94,9 @@ const Body = () => {
     return (
         <div className="body">
             {rendered}
-            <div className="jump-next" onClick={onJumpNext}>
+            {selectedPair.length === 2 && <div className="jump-next" onClick={onJumpNext}>
                 Jump To Next Diff
-            </div>
+            </div>}
         </div>
     );
 };
