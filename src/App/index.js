@@ -14,7 +14,9 @@ chrome.devtools.panels.create("Network Diff",
 const INIT_STATE = {
     isRecording: false,
     urlRegex: '',
-    method: 'POST'
+    method: 'POST',
+    selectedPair: [],
+    data: []
 };
 
 function App() {
@@ -26,14 +28,26 @@ function App() {
   };
 
   React.useEffect(() => {
-
+    if (state.isRecording) {
+      setContext('data', []);
+    }
   }, [state.isRecording]);
 
-  const networkListener = React.useCallback(({ method, initiator, requestId, requestBody, url }) => {
-    const { isRecording } = state;
+  const networkListener = React.useCallback(({ method: reqMethod, initiator, requestId, requestBody, url }) => {
+    const { isRecording, data, method, urlRegex } = state;
     if (!isRecording) { return; }
+    if (method !== reqMethod) { return; }
+    if (!new RegExp(urlRegex).test(url)) { return; }
 
-    // TODO - Log things
+    const reqData = { initiator, requestId, requestBody, url };
+    const index = data.findIndex((x) => x.requestId === requestId);
+    if (index !== -1) {
+      setContext(`data.${index}`, reqData);
+    } else {
+      // Hack to overcome the duplicate requests
+      // that onBeforeRequest event sends with the same ID
+      setContext('data', (data) => data.concat(reqData));
+    }
   }, [state]);
 
   React.useEffect(() => {
