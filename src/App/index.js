@@ -5,6 +5,7 @@ import Header from '../Header';
 import './style.scss';
 import Body from '../Body';
 import useRecordingChange from './Hooks/useRecordingChange';
+import useSelectedPairChange from './Hooks/useSelectedPairChange';
 
 // eslint-disable-next-line no-undef
 chrome.devtools.panels.create("Network Diff",
@@ -17,7 +18,8 @@ const INIT_STATE = {
     urlRegex: '',
     method: 'POST',
     selectedPair: [],
-    data: []
+    data: [],
+    diffs: []
 };
 
 function App() {
@@ -29,6 +31,7 @@ function App() {
   }, []);
 
   useRecordingChange(state, setContext);
+  useSelectedPairChange(state, setContext);
 
   const networkListener = React.useCallback(({ method: reqMethod, initiator, requestId, requestBody, url }) => {
     const { isRecording, data, method, urlRegex } = state;

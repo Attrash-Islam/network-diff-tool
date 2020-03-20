@@ -1,0 +1,13 @@
+.network-diff-tool {
+    .jump-next {
+        position: fixed;
+        bottom: 10px;
+        right: 9px;
+        background: white;
+        color: black;
+        border-radius: 4px;
+        padding: 10px;
+        cursor: pointer;
+        user-select: none;
+    }
+}

@@ -1,12 +1,15 @@
 import React from 'react';
 
 const useRecordingChange = (state, setContext) => {
+    const { isRecording } = state;
+
     React.useEffect(() => {
-        if (state.isRecording) {
+        if (isRecording) {
           setContext('data', []);
+          setContext('diffs', []);
           setContext('selectedPair', []);
         }
-      }, [state.isRecording, setContext]);
+      }, [isRecording, setContext]);
 };
 
 export default useRecordingChange;
