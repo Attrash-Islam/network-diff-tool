@@ -3,7 +3,6 @@ const Diff = require('diff');
 
 const useSelectedPairChange = (state, setContext) => {
     const { data, selectedPair } = state;
-    const oldPairs = React.useRef(selectedPair);
 
     const getRequestBodyByRequestId = React.useCallback((requestId) => {
         return data.find((x) => x.requestId === requestId).requestBody;
@@ -17,12 +16,11 @@ const useSelectedPairChange = (state, setContext) => {
     }, [getRequestBodyByRequestId, selectedPair, setContext]);
 
     React.useEffect(() => {
-        if (selectedPair.length === 2 && oldPairs.current.length !== 2) {
+        if (selectedPair.length === 2) {
             buildDiff();
-        } else if (selectedPair.length !== 2 && oldPairs.current.length === 2) {
+        } else {
             setContext('diffs', []);
         }
-        oldPairs.current = selectedPair;
     }, [selectedPair, buildDiff, setContext]);
 };
 

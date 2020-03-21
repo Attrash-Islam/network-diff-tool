@@ -1,0 +1,20 @@
+.network-diff-tool .perfect-match {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 15px;
+
+    > h4 {
+        font-size: 15px;
+        line-height: 21px;
+        color: #FFFFFF;
+    }
+
+    .icn-match {
+        background-image: url('./icn-match.svg');
+        width: 51px;
+        height: 51px;
+        display: block;
+        transform: scale(.8);
+    }
+}

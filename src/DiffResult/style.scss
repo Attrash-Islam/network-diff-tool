@@ -1,21 +1,19 @@
-.network-diff-tool {
-    .diff-result {
-        text-align: left;
-        white-space: pre;
+.network-diff-tool .diff-result {
+    text-align: left;
+    white-space: pre;
 
-        .loc {
-            padding: 5px;
-            color: white;
+    .loc {
+        padding: 5px;
+        color: white;
 
-            &.added {
-                color: black;
-                background: #b2ffa9;
-            }
+        &.added {
+            color: black;
+            background: #b2ffa9;
+        }
 
-            &.removed {
-                color: black;
-                background: #ffa9a9;
-            }
+        &.removed {
+            color: black;
+            background: #ffa9a9;
         }
     }
 }

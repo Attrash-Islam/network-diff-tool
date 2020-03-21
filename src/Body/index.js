@@ -3,9 +3,10 @@ import classnames from 'classnames';
 import ToolContext from '../context';
 import './style.scss';
 import DiffResult from '../DiffResult';
+import PerfectMatch from '../PerfectMatch';
 
 const Body = () => {
-    const { context: { isRecording, data, selectedPair }, setContext } = React.useContext(ToolContext);
+    const { context: { isRecording, data, selectedPair, isPerfectMatch }, setContext } = React.useContext(ToolContext);
     let rendered;
 
     const toggleSelection = (requestId, index) => () => {
@@ -34,6 +35,7 @@ const Body = () => {
                     {list(0)}
                     {list(1)}
                 </div>
+                {isPerfectMatch && <PerfectMatch/>}
                 <DiffResult/>
             </div>
         );

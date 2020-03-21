@@ -6,6 +6,7 @@ import './style.scss';
 import Body from '../Body';
 import useRecordingChange from './Hooks/useRecordingChange';
 import useSelectedPairChange from './Hooks/useSelectedPairChange';
+import useDiffsChange from './Hooks/useDiffsChange';
 
 // eslint-disable-next-line no-undef
 chrome.devtools.panels.create("Network Diff",
@@ -19,7 +20,8 @@ const INIT_STATE = {
     method: 'POST',
     selectedPair: [],
     data: [],
-    diffs: []
+    diffs: [],
+    isPerfectMatch: false
 };
 
 function App() {
@@ -32,6 +34,7 @@ function App() {
 
   useRecordingChange(state, setContext);
   useSelectedPairChange(state, setContext);
+  useDiffsChange(state, setContext);
 
   const networkListener = React.useCallback(({ method: reqMethod, initiator, requestId, requestBody, url }) => {
     const { isRecording, data, method, urlRegex } = state;
@@ -48,7 +51,7 @@ function App() {
       // that onBeforeRequest event sends with the same ID
       setContext('data', (data) => data.concat(reqData));
     }
-  }, [state]);
+  }, [state, setContext]);
 
   React.useEffect(() => {
     // eslint-disable-next-line no-undef
