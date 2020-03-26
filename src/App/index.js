@@ -32,6 +32,13 @@ function App() {
     setState((state) => updateFunction(path, value, state), cb);
   }, []);
 
+  React.useEffect(() => {
+    // eslint-disable-next-line no-undef
+    chrome.storage.local.get(['networkDiffUrlRegex'], ({ networkDiffUrlRegex = '' }) => {
+      setContext('urlRegex', networkDiffUrlRegex);
+    });
+  }, [setContext]);
+
   useRecordingChange(state, setContext);
   useSelectedPairChange(state, setContext);
   useDiffsChange(state, setContext);
