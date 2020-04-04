@@ -2,11 +2,12 @@ import React from 'react';
 import { set, update, isFunction } from 'lodash/fp';
 import ToolContext from '../context';
 import Header from '../Header';
-import './style.scss';
 import Body from '../Body';
 import useRecordingChange from './Hooks/useRecordingChange';
 import useSelectedPairChange from './Hooks/useSelectedPairChange';
 import useDiffsChange from './Hooks/useDiffsChange';
+import useInitialDataFromStorage from './Hooks/useInitialDataFromStorage';
+import './style.scss';
 
 // eslint-disable-next-line no-undef
 chrome.devtools.panels.create("Network Diff",
@@ -32,13 +33,7 @@ function App() {
     setState((state) => updateFunction(path, value, state), cb);
   }, []);
 
-  React.useEffect(() => {
-    // eslint-disable-next-line no-undef
-    chrome.storage.local.get(['networkDiffUrlRegex'], ({ networkDiffUrlRegex = '' }) => {
-      setContext('urlRegex', networkDiffUrlRegex);
-    });
-  }, [setContext]);
-
+  useInitialDataFromStorage(state, setContext);
   useRecordingChange(state, setContext);
   useSelectedPairChange(state, setContext);
   useDiffsChange(state, setContext);
