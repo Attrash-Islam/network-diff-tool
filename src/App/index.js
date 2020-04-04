@@ -25,6 +25,13 @@ const INIT_STATE = {
     isPerfectMatch: false
 };
 
+const HOOKS = [
+  useInitialDataFromStorage,
+  useRecordingChange,
+  useSelectedPairChange,
+  useDiffsChange
+];
+
 function App() {
   const [state, setState] = React.useState(INIT_STATE);
 
@@ -33,10 +40,8 @@ function App() {
     setState((state) => updateFunction(path, value, state), cb);
   }, []);
 
-  useInitialDataFromStorage(state, setContext);
-  useRecordingChange(state, setContext);
-  useSelectedPairChange(state, setContext);
-  useDiffsChange(state, setContext);
+  // Hooks execution
+  HOOKS.forEach((h) => h(state, setContext));
 
   const networkListener = React.useCallback(({ method: reqMethod, initiator, requestId, requestBody, url }) => {
     const { isRecording, data, method, urlRegex } = state;
