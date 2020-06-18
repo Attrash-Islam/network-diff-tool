@@ -1,4 +1,4 @@
-Network Diff Tool that garauntee that your plike requests payload is identical to the latest on master
+Network Diff Tool Chrome Extension that garauntee that your plike requests payload is identical to the latest on master
 
 - Enable in incognito in order to do multiple logins at the same domain if needed. 
 
