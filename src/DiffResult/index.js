@@ -26,7 +26,7 @@ const DiffResult = () => {
                 0 : currentNavigatedIndexRef.current + 1;
         }
 
-        allDiffElementsRef.current[currentNavigatedIndexRef.current].scrollIntoView(true);
+        allDiffElementsRef.current[currentNavigatedIndexRef.current].scrollIntoView({ behavior: 'smooth', block: 'center' });
     };
 
     return (
