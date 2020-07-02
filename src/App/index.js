@@ -1,5 +1,5 @@
 import React from 'react';
-import { set, update, isFunction } from 'lodash/fp';
+import { Provider } from 'react-wisteria';
 import ToolContext from '../context';
 import Header from '../Header';
 import Body from '../Body';
@@ -26,33 +26,21 @@ const INIT_STATE = {
     isPerfectMatch: false
 };
 
-const HOOKS = [
-  useInitialDataFromStorage,
-  useRecordingChange,
-  useSelectedPairChange,
-  useDiffsChange,
-  useNetworkListener
-];
+const App = () => (
+    <div className="network-diff-tool">
+      <Header/>
+      <Body/>
+    </div>
+);
 
-function App() {
-  const [state, setState] = React.useState(INIT_STATE);
-
-  const setContext = React.useCallback((path, value, cb) => {
-    const updateFunction = isFunction(value) ? update : set;
-    setState((state) => updateFunction(path, value, state), cb);
-  }, []);
-
-  // Hooks execution
-  HOOKS.forEach((h) => h(state, setContext));
-
-  return (
-    <ToolContext.Provider value={{ context: state, setContext }}>
-      <div className="network-diff-tool">
-        <Header/>
-        <Body/>
-      </div>
-    </ToolContext.Provider>
-  );
-}
-
-export default App;
+export default Provider({
+  Context: ToolContext,
+  initialPropsMapper: () => INIT_STATE,
+  effects: [
+    useInitialDataFromStorage,
+    useRecordingChange,
+    useSelectedPairChange,
+    useDiffsChange,
+    useNetworkListener
+  ]
+})(App);

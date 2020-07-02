@@ -1,17 +1,23 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { connect } from 'react-wisteria';
 import './style.scss';
-import ToolContext from '../context';
 
-const UrlRegexInput = () => {
-    const { context: { urlRegex, isRecording }, setContext } = React.useContext(ToolContext);
+const UrlRegexInput = ({ urlRegex, isRecording, onChange }) => (
+    <input value={urlRegex} disabled={isRecording} onChange={onChange} placeholder="URL REGEX" className="url-regex-input"/>
+);
 
-    const onChange = ({ target: { value }}) => {
+const useStateToProps = ({ context, setContext }) => {
+    const { urlRegex, isRecording } = context;
+
+    const onChange = useCallback(({ target: { value }}) => {
         setContext('urlRegex', value);
-    };
+    }, [setContext]);
 
-    return (
-        <input value={urlRegex} disabled={isRecording} onChange={onChange} placeholder="URL REGEX" className="url-regex-input"/>
-    );
+    return {
+        urlRegex,
+        isRecording,
+        onChange
+    };
 };
 
-export default UrlRegexInput;
+export default connect(useStateToProps)(UrlRegexInput);

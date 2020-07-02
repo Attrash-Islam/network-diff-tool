@@ -1,12 +1,11 @@
 import React from 'react';
 import classnames from 'classnames';
-import ToolContext from '../context';
+import { connect } from 'react-wisteria';
 import { isNil } from 'lodash/fp';
 import JumpNextBtn from '../JumpNextBtn';
 import './style.scss';
 
-const DiffResult = () => {
-    const { context: { diffs } } = React.useContext(ToolContext);
+const DiffResult = ({ diffs }) => {
     const allDiffElementsRef = React.useRef([]);
     const currentNavigatedIndexRef = React.useRef();
 
@@ -41,4 +40,10 @@ const DiffResult = () => {
     );
 };
 
-export default DiffResult;
+const useStateToProps = ({ context }) => {
+    const { diffs } = context;
+
+    return { diffs };
+};
+
+export default connect(useStateToProps)(DiffResult);

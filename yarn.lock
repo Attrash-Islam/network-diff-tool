@@ -9148,6 +9148,11 @@ react-scripts@3.4.0:
   optionalDependencies:
     fsevents "2.1.2"
 
+react-wisteria@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npmjs.org/react-wisteria/-/react-wisteria-4.0.0.tgz#6932594a7024524abe6d0fbbf63879b87b6ab401"
+  integrity sha512-JRfxkefKc3TtN9Gm+sdiXjy/+AcLRcqZlnBVuC/NMDgPq/uo1IQbX1qfFCoz7kuzglZPHROJkvKkgNRDekgP6w==
+
 react@^16.13.0:
   version "16.13.1"
   resolved "https://registry.npmjs.org/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
