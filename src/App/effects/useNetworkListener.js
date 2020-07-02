@@ -1,8 +1,8 @@
-import React from 'react';
+import { useCallback, useEffect } from 'react';
 
-const useNetworkListener = (state, setContext) => {
-    const networkListener = React.useCallback(({ method: reqMethod, initiator, requestId, requestBody, url }) => {
-        const { isRecording, data, method, urlRegex } = state;
+const useNetworkListener = ({ context, setContext }) => {
+    const networkListener = useCallback(({ method: reqMethod, initiator, requestId, requestBody, url }) => {
+        const { isRecording, data, method, urlRegex } = context;
         if (!isRecording) { return; }
         if (method !== reqMethod) { return; }
         if (!new RegExp(urlRegex).test(url)) { return; }
@@ -16,9 +16,9 @@ const useNetworkListener = (state, setContext) => {
           // that onBeforeRequest event sends with the same ID
           setContext('data', (data) => data.concat(reqData));
         }
-    }, [state, setContext]);
+    }, [context, setContext]);
 
-    React.useEffect(() => {
+    useEffect(() => {
     // eslint-disable-next-line no-undef
     chrome.webRequest.onBeforeRequest.addListener(
         networkListener,

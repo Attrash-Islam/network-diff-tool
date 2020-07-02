@@ -3,11 +3,11 @@ import { Provider } from 'react-wisteria';
 import ToolContext from '../context';
 import Header from '../Header';
 import Body from '../Body';
-import useRecordingChange from './Hooks/useRecordingChange';
-import useSelectedPairChange from './Hooks/useSelectedPairChange';
-import useDiffsChange from './Hooks/useDiffsChange';
-import useInitialDataFromStorage from './Hooks/useInitialDataFromStorage';
-import useNetworkListener from './Hooks/useNetworkListener';
+import useRecordingChange from './effects/useRecordingChange';
+import useSelectedPairChange from './effects/useSelectedPairChange';
+import useDiffsChange from './effects/useDiffsChange';
+import useInitialDataFromStorage from './effects/useInitialDataFromStorage';
+import useNetworkListener from './effects/useNetworkListener';
 import './style.scss';
 
 // eslint-disable-next-line no-undef

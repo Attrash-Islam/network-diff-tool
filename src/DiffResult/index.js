@@ -1,15 +1,14 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import classnames from 'classnames';
 import { connect } from 'react-wisteria';
-import { isNil } from 'lodash/fp';
 import JumpNextBtn from '../JumpNextBtn';
 import './style.scss';
 
 const DiffResult = ({ diffs }) => {
-    const allDiffElementsRef = React.useRef([]);
-    const currentNavigatedIndexRef = React.useRef();
+    const allDiffElementsRef = useRef([]);
+    const currentNavigatedIndexRef = useRef();
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (diffs.length === 0) {
             allDiffElementsRef.current = [];
         } else {
@@ -18,7 +17,7 @@ const DiffResult = ({ diffs }) => {
     }, [diffs]);
 
     const onJumpNext = () => {
-        if (isNil(currentNavigatedIndexRef.current)) {
+        if ([undefined, null].some((x) => currentNavigatedIndexRef.current === x)) {
             currentNavigatedIndexRef.current = 0;
         } else {
             currentNavigatedIndexRef.current = currentNavigatedIndexRef.current === allDiffElementsRef.current.length - 1 ?
