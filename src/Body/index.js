@@ -1,17 +1,12 @@
-import React from 'react';
+import React, { useCallback } from 'react';
+import { connect } from 'react-wisteria';
 import classnames from 'classnames';
-import ToolContext from '../context';
-import './style.scss';
 import DiffResult from '../DiffResult';
 import PerfectMatch from '../PerfectMatch';
+import './style.scss';
 
-const Body = () => {
-    const { context: { isRecording, data, selectedPair, isPerfectMatch }, setContext } = React.useContext(ToolContext);
+const Body = ({ isRecording, data, selectedPair, isPerfectMatch, toggleSelection }) => {
     let rendered;
-
-    const toggleSelection = (requestId, index) => () => {
-        setContext(`selectedPair.${index}`, requestId);
-    };
 
     if (isRecording) {
         rendered = (<span className="recording">Recording...</span>);
@@ -48,4 +43,20 @@ const Body = () => {
     );
 };
 
-export default Body;
+const useStateToProps = ({ context, setContext }) => {
+    const { isRecording, data, selectedPair, isPerfectMatch } = context;
+
+    const toggleSelection = useCallback((requestId, index) => () => {
+        setContext(`selectedPair.${index}`, requestId);
+    }, [setContext]);
+
+    return {
+        isRecording,
+        data,
+        selectedPair,
+        isPerfectMatch,
+        toggleSelection
+    }
+}
+
+export default connect(useStateToProps)(Body);

@@ -1,20 +1,18 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import classnames from 'classnames';
-import ToolContext from '../context';
+import { connect } from 'react-wisteria';
 import './style.scss';
 
 const NOT_RECORDING_COLOR = '#C7C7C7';
 const RECORDING_COLOR = '#FF0000';
 
-const RecordDot = () => {
-    const { context: { isRecording, method, urlRegex }, setContext } = React.useContext(ToolContext);
-
+const RecordDot = ({ isRecording, method, urlRegex, toggleRecording }) => {
     const disabled = [method, urlRegex].some((x) => !x);
 
     const onClick = () => {
         if (disabled) { return; }
 
-        setContext('isRecording', !isRecording);
+        toggleRecording();
     };
 
     const title = disabled ? 'You can\'t record unless you enter a URL Regex' : 'Start Recording!';
@@ -30,4 +28,19 @@ const RecordDot = () => {
     );
 }
 
-export default RecordDot;
+const useStateToProps = ({ context, setContext }) => {
+    const { isRecording, method, urlRegex } = context;
+
+    const toggleRecording = useCallback(() => {
+        setContext('isRecording', (x) => !x);
+    }, [setContext]);
+
+    return {
+        isRecording,
+        method,
+        urlRegex,
+        toggleRecording
+    };
+};
+
+export default connect(useStateToProps)(RecordDot);

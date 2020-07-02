@@ -1,9 +1,9 @@
-import React from 'react';
+import { useEffect } from 'react';
 
-const useRecordingChange = (state, setContext) => {
-    const { isRecording, urlRegex } = state;
+const useRecordingChange = ({ context, setContext }) => {
+    const { isRecording, urlRegex } = context;
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (isRecording) {
           setContext('data', []);
           setContext('diffs', []);

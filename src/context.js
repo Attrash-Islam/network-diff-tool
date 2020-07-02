@@ -1,5 +1,5 @@
-import React from 'react';
+import { createContext } from 'react';
 
-const ToolContext = React.createContext({});
+const ToolContext = createContext({});
 
 export default ToolContext;

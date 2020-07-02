@@ -1,16 +1,14 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import classnames from 'classnames';
-import ToolContext from '../context';
-import { isNil } from 'lodash/fp';
+import { connect } from 'react-wisteria';
 import JumpNextBtn from '../JumpNextBtn';
 import './style.scss';
 
-const DiffResult = () => {
-    const { context: { diffs } } = React.useContext(ToolContext);
-    const allDiffElementsRef = React.useRef([]);
-    const currentNavigatedIndexRef = React.useRef();
+const DiffResult = ({ diffs }) => {
+    const allDiffElementsRef = useRef([]);
+    const currentNavigatedIndexRef = useRef();
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (diffs.length === 0) {
             allDiffElementsRef.current = [];
         } else {
@@ -19,7 +17,7 @@ const DiffResult = () => {
     }, [diffs]);
 
     const onJumpNext = () => {
-        if (isNil(currentNavigatedIndexRef.current)) {
+        if ([undefined, null].some((x) => currentNavigatedIndexRef.current === x)) {
             currentNavigatedIndexRef.current = 0;
         } else {
             currentNavigatedIndexRef.current = currentNavigatedIndexRef.current === allDiffElementsRef.current.length - 1 ?
@@ -41,4 +39,10 @@ const DiffResult = () => {
     );
 };
 
-export default DiffResult;
+const useStateToProps = ({ context }) => {
+    const { diffs } = context;
+
+    return { diffs };
+};
+
+export default connect(useStateToProps)(DiffResult);

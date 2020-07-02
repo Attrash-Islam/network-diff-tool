@@ -1,7 +1,7 @@
-import React from 'react';
+import { useEffect } from 'react';
 
-const useInitialDataFromStorage = (_state, setContext) => {
-    React.useEffect(() => {
+const useInitialDataFromStorage = ({ setContext }) => {
+    useEffect(() => {
         // eslint-disable-next-line no-undef
         chrome.storage.local.get(['networkDiffUrlRegex'], ({ networkDiffUrlRegex = '' }) => {
           setContext('urlRegex', networkDiffUrlRegex);

@@ -1,9 +1,9 @@
-import React from 'react';
+import { useEffect } from 'react';
 
-const useDiffsChange = (state, setContext) => {
-    const { diffs } = state;
+const useDiffsChange = ({ context, setContext }) => {
+    const { diffs } = context;
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (diffs.length === 0) {
             setContext('isPerfectMatch', false);
         } else {

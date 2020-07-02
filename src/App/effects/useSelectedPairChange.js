@@ -1,21 +1,21 @@
-import React from 'react';
+import { useCallback, useEffect } from 'react';
 const Diff = require('diff');
 
-const useSelectedPairChange = (state, setContext) => {
-    const { data, selectedPair } = state;
+const useSelectedPairChange = ({ context, setContext }) => {
+    const { data, selectedPair } = context;
 
-    const getRequestBodyByRequestId = React.useCallback((requestId) => {
+    const getRequestBodyByRequestId = useCallback((requestId) => {
         return data.find((x) => x.requestId === requestId).requestBody;
     }, [data]);
 
-    const buildDiff = React.useCallback(() => {
+    const buildDiff = useCallback(() => {
         const first = JSON.stringify(getRequestBodyByRequestId(selectedPair[0]), null, 4);
         const second = JSON.stringify(getRequestBodyByRequestId(selectedPair[1]), null, 4);
         const diffResult = Diff.diffLines(first, second);
         setContext('diffs', diffResult);
     }, [getRequestBodyByRequestId, selectedPair, setContext]);
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (selectedPair.length === 2) {
             buildDiff();
         } else {
